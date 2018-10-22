@@ -39,6 +39,102 @@ En la primera parte del workshop aprenderá a crear y desplegar una función lam
 
 Cree una lambda que cuente las palabras de una cadena de texto. Utilice [Postman](https://www.getpostman.com/), [Insomnia](https://insomnia.rest/) u otro cliente REST para consumir la función.
 
+1. Desde _File_, _New_, _Project_, cree un nuevo proyecto de tipo _AWS Lambda Project with Tests (.NET Core)_. Use la plantilla _Empty Function_.
+
+    ![Image](./img/new.png)
+
+2. Explore los archivos _aws-lambda-tools-defaults.json_ y _Function.cs_.
+
+3. Agregue test para la función. Es muy importante usar TDD en el desarrollo de lambdas.
+
+    ``` C#
+    using Xunit;
+    using Amazon.Lambda.TestUtilities;
+
+    namespace WordCount.Tests
+    {
+        public class FunctionTest
+        {
+            [Fact]
+            public void TestCountFunction()
+            {
+                var function = new Function();
+                var context = new TestLambdaContext();
+
+                var cases = new [] {
+                    ("hello world", 2),
+                    ("hello .NET Conf CO v2018!", 5),
+                    ("We invite you to the\nXamarin Cali Meetup", 8),
+                    (null, 0),
+                    (" hello   world ", 2),
+                    ("   ", 0),
+                    ("", 0)
+                };
+
+                foreach (var (input, expected) in cases)
+                {
+                    var count = function.FunctionHandler(input, context);
+                    Assert.Equal(expected, count);
+                }
+            }
+        }
+    }
+
+    ```
+
+4. Escriba una función que reciba como parámetro un _string_ y cuente las palabras.
+
+    ``` C#
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Threading.Tasks;
+    using System.Text.RegularExpressions;
+
+    using Amazon.Lambda.Core;
+
+    // Assembly attribute to enable the Lambda function's JSON input to be converted into a .NET class.
+    [assembly: LambdaSerializer(typeof(Amazon.Lambda.Serialization.Json.JsonSerializer))]
+
+    namespace WordCount
+    {
+        public class Function
+        {
+
+            /// <summary>
+            /// A simple function that takes a string and counts its words
+            /// </summary>
+            /// <param name="input"></param>
+            /// <param name="context"></param>
+            /// <returns>Word count</returns>
+            public int FunctionHandler(string input, ILambdaContext context)
+            {
+                if (input == null)
+                {
+                    return 0;
+                }
+
+                var content = input;
+
+                content = Regex.Replace(content, @"(< ([^>]+)<)", "");
+                content = Regex.Replace(content, @"\s+", " ");
+                content = Regex.Replace(content, @"^\s\s*", "");
+                content = Regex.Replace(content, @"\s\s*$", "");
+
+                if (content == "")
+                {
+                    return 0;
+                }
+                else
+                {
+                    return content.Split(" ").Length;
+                }
+            }
+        }
+    }
+
+    ```
+
 # Segunda parte
 
 Cree una cola de AWS y modifique la primer lambda para que envíe los resultados hacia esa cola. Luego cree una segunda lambda que lea la cola y envíe el resultado a un canal de Slack.
