@@ -37,7 +37,7 @@ En la primera parte del workshop aprenderá a crear y desplegar una función lam
 
 # Primera parte
 
-Cree una lambda que cuente las palabras de una cadena de texto. Utilice el _AWS Toolkit_, [Postman](https://www.getpostman.com/), [Insomnia](https://insomnia.rest/) u otro cliente REST para consumir la función.
+Lambda que cuenta las palabras de una cadena de texto.
 
 1. Desde _File_, _New_, _Project_, cree un nuevo proyecto de tipo _AWS Lambda Project with Tests (.NET Core)_. Use la plantilla _Empty Function_.
 
@@ -147,4 +147,74 @@ Cree una lambda que cuente las palabras de una cadena de texto. Utilice el _AWS 
 
 # Segunda parte
 
-Cree una cola de AWS y modifique la primer lambda para que envíe los resultados hacia esa cola. Luego cree una segunda lambda que lea la cola y envíe el resultado a un canal de Slack.
+Enviar el resultado a una cola de _Amazon SQS_.
+
+1. Desde el _AWS Explorer_, cree una SQS.
+
+    ![Image](./img/sqs.png)
+
+2. Modifique el archivo _aws-lambda-tools-defaults.json_ y agregue la url de la cola a las variables de entorno. Usar variables de entorno le permitirá desacoplar el ambiente de desarrollo del de producción. Además, facilita los cambios en el flujo de la aplicación.
+
+    ```
+    "environment-variables": "{RESULT_QUEUE=SQS_QUEUE_URL}"
+    ```
+
+3. Modifique la función y el test para que la lógica de negocios quede aislada del _handler_. En este ejercicio no vamos a crear clases adicionales, pero eso es lo ideal.
+
+    ``` C#
+    public int FunctionHandler(string input, ILambdaContext context)
+    {
+        var result = CountWords(input);
+        return result;
+    }
+
+    public int CountWords(string input)
+    {
+        if (input == null)
+        {
+            return 0;
+        }
+
+        var content = input;
+
+        content = Regex.Replace(content, @"(< ([^>]+)<)", "");
+        content = Regex.Replace(content, @"\s+", " ");
+        content = Regex.Replace(content, @"^\s\s*", "");
+        content = Regex.Replace(content, @"\s\s*$", "");
+
+        if (content == "")
+        {
+            return 0;
+        }
+        else
+        {
+            return content.Split(" ").Length;
+        }
+    }
+    ```
+
+    ``` C#
+    [Fact]
+    public void TestCountFunction()
+    {
+        var function = new Function();
+
+        var cases = new [] {
+            ("Hello World", 2),
+            ("Hello .NET Conf CO v2018!", 5),
+            ("We invite you to the\nXamarin Cali Meetup", 8),
+            (null, 0),
+            (" Hello   World ", 2),
+            ("   ", 0),
+            ("", 0)
+        };
+
+        foreach (var (input, expected) in cases)
+        {
+            var count = function.CountWords(input);
+            Assert.Equal(expected, count);
+        }
+    }
+    ```
+
+
