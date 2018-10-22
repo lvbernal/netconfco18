@@ -19,6 +19,22 @@ __Requisitos__:
 
 En la primera parte del workshop aprenderá a crear y desplegar una función lambda desarrollada con .NET Core. Y en la segunda aprenderá a crear otra lambda que recibe el resultado de la primera desde una cola o _queue_ y lo envía a un servicio externo.
 
+## Configuración
+
+1. Ingrese al sitio [AWS Identity and Access Management](https://console.aws.amazon.com/iam/home?region=us-east-1#/users).
+
+2. Agregue un usuario con tipo de acceso _Programmatic access_.
+
+    ![Image](./img/iam1.png)
+
+3. Asigne la política _PowerUserAccess_ o _AdministratorAccess_.
+
+    ![Image](./img/iam2.png)
+
+4. __Descargue__ el .csv con las credenciales y configure Visual Studio. Puede usar el ayudante que aparece cuando instala el _toolkit_ o desde el menú _View_, _AWS Explorer_.
+
+    ![Image](./img/toolkit.png)
+
 # Primera parte
 
 Cree una lambda que cuente las palabras de una cadena de texto. Utilice [Postman](https://www.getpostman.com/), [Insomnia](https://insomnia.rest/) u otro cliente REST para consumir la función.
