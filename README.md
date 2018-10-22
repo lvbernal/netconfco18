@@ -37,7 +37,7 @@ En la primera parte del workshop aprenderá a crear y desplegar una función lam
 
 # Primera parte
 
-Cree una lambda que cuente las palabras de una cadena de texto. Utilice [Postman](https://www.getpostman.com/), [Insomnia](https://insomnia.rest/) u otro cliente REST para consumir la función.
+Cree una lambda que cuente las palabras de una cadena de texto. Utilice el _AWS Toolkit_, [Postman](https://www.getpostman.com/), [Insomnia](https://insomnia.rest/) u otro cliente REST para consumir la función.
 
 1. Desde _File_, _New_, _Project_, cree un nuevo proyecto de tipo _AWS Lambda Project with Tests (.NET Core)_. Use la plantilla _Empty Function_.
 
@@ -138,6 +138,12 @@ Cree una lambda que cuente las palabras de una cadena de texto. Utilice [Postman
 6. Despliegue la función usando la opción _Publish to AWS Lambda_ que aparece el menú contextual del proyecto (click derecho); use el rol _AWSLambdaFullAccess_. Si no encuentra el rol, es probable que deba agregar la política _AdministratorAccess_, como recomendamos en el punto 3 de la sección de configuración.
 
     ![Image](./img/deploy.png)
+
+7. Después de desplegar la función, es probable que haya cambiado el archivo _aws-lambda-tools-defaults.json_. Explore los cambios.
+
+8. Use el _AWS Explorer_ (menú _View_, _AWS Explorer_) para probar la función.
+
+    ![Image](./img/explorer.png)
 
 # Segunda parte
 
