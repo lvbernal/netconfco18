@@ -82,7 +82,7 @@ Cree una lambda que cuente las palabras de una cadena de texto. Utilice [Postman
 
     ```
 
-4. Escriba una función que reciba como parámetro un _string_ y cuente las palabras.
+4. Escriba una función que reciba como parámetro un _string_ y cuente las palabras. El siguiente código se basa en el ejemplo [Word Count](https://code.visualstudio.com/docs/extensions/example-word-count) de Visual Studio Code.
 
     ``` C#
     using System;
