@@ -21,7 +21,7 @@ En la primera parte del workshop aprenderá a crear y desplegar una función lam
 
 ## Configuración
 
-1. Ingrese al sitio [AWS Identity and Access Management](https://console.aws.amazon.com/iam/home?region=us-east-1#/users).
+1. Ingrese al sitio [AWS Identity and Access Management (IAM)](https://console.aws.amazon.com/iam/home?region=us-east-1#/users).
 
 2. Agregue un usuario con tipo de acceso _Programmatic access_.
 
@@ -45,7 +45,7 @@ Cree una lambda que cuente las palabras de una cadena de texto. Utilice [Postman
 
 2. Explore los archivos _aws-lambda-tools-defaults.json_ y _Function.cs_.
 
-3. Agregue test para la función. Es muy importante usar TDD en el desarrollo de lambdas.
+3. Agregue pruebas unitarias para la función. Es muy importante usar TDD en el desarrollo de lambdas.
 
     ``` C#
     using Xunit;
@@ -79,10 +79,9 @@ Cree una lambda que cuente las palabras de una cadena de texto. Utilice [Postman
             }
         }
     }
-
     ```
 
-4. Escriba una función que reciba como parámetro un _string_ y cuente las palabras. El siguiente código se basa en el ejemplo [Word Count](https://code.visualstudio.com/docs/extensions/example-word-count) de Visual Studio Code.
+4. Escriba una función que reciba como parámetro un _string_ y cuente las palabras. El siguiente código se basa en el ejemplo [_Word Count_](https://code.visualstudio.com/docs/extensions/example-word-count) de Visual Studio Code.
 
     ``` C#
     using System;
@@ -132,7 +131,6 @@ Cree una lambda que cuente las palabras de una cadena de texto. Utilice [Postman
             }
         }
     }
-
     ```
 
 # Segunda parte
