@@ -27,7 +27,7 @@ En la primera parte del workshop aprenderá a crear y desplegar una función lam
 
     ![Image](./img/iam1.png)
 
-3. Asigne la política _PowerUserAccess_ o _AdministratorAccess_.
+3. Asigne la política _AdministratorAccess_ o _PowerUserAccess_. Para este demo, recomendamos la de administrador.
 
     ![Image](./img/iam2.png)
 
@@ -132,6 +132,12 @@ Cree una lambda que cuente las palabras de una cadena de texto. Utilice [Postman
         }
     }
     ```
+
+5. Ejecute los _tests_ desde el menú _Test_, _Run_, _All Tests_.
+
+6. Despliegue la función usando la opción _Publish to AWS Lambda_ que aparece el menú contextual del proyecto (click derecho); use el rol _AWSLambdaFullAccess_. Si no encuentra el rol, es probable que deba agregar la política _AdministratorAccess_, como recomendamos en el punto 3 de la sección de configuración.
+
+    ![Image](./img/deploy.png)
 
 # Segunda parte
 
