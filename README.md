@@ -246,3 +246,21 @@ En la primera parte del workshop aprenderá a crear y desplegar una función lam
 6. Pruebe la lambda y observe el estado de la cola en el _AWS Explorer_.
 
     ![Image](./img/sqsmsg.png)
+
+## Usar otra lambda para leer el resultado de la cola.
+
+1. Agregue otro proyecto de tipo _AWS Lambda Project with Tests (.NET Core)_, pero use la plantilla _Simple SQS Function_. Recomendamos el nombre _PushToSlack_.
+
+2. Despliegue la función.
+
+3. Desde el _AWS Explorer_, configure las fuentes de eventos (_Event Sources_) de la función y agregue la SQS. Visual Studio le ayudará a agregar la política de lectura de SQS para la lambda.
+
+    ![Image](./img/events.png)
+
+4. Ejecute la función _WordCount_ y luego revise los _logs_ de _PushToSlack_. Verá que la salida de la primera función es ahora la entrada de la segunda, a través de la cola.
+
+    ![Image](./img/sqslambdalogs.png)
+
+## Reto
+
+Modifique la segunda función para que publique el número de palabras en un canal de Slack.
