@@ -37,7 +37,7 @@ En la primera parte del workshop aprenderá a crear y desplegar una función lam
 
 # Primera parte
 
-Lambda que cuenta las palabras de una cadena de texto.
+## Lambda que cuenta las palabras de una cadena de texto.
 
 1. Desde _File_, _New_, _Project_, cree un nuevo proyecto de tipo _AWS Lambda Project with Tests (.NET Core)_. Use la plantilla _Empty Function_.
 
@@ -147,19 +147,9 @@ Lambda que cuenta las palabras de una cadena de texto.
 
 # Segunda parte
 
-Enviar el resultado a una cola de _Amazon SQS_.
+## Enviar el resultado a una cola de _Amazon SQS_.
 
-1. Desde el _AWS Explorer_, cree una SQS.
-
-    ![Image](./img/sqs.png)
-
-2. Modifique el archivo _aws-lambda-tools-defaults.json_ y agregue la url de la cola a las variables de entorno. Usar variables de entorno le permitirá desacoplar el ambiente de desarrollo del de producción. Además, facilita los cambios en el flujo de la aplicación.
-
-    ```
-    "environment-variables": "{RESULT_QUEUE=SQS_QUEUE_URL}"
-    ```
-
-3. Modifique la función y el test para que la lógica de negocios quede aislada del _handler_. En este ejercicio no vamos a crear clases adicionales, pero eso es lo ideal.
+1. Modifique la función y el test para que la lógica de negocios quede aislada del _handler_. En este ejercicio no vamos a crear clases adicionales, pero eso es lo ideal.
 
     ``` C#
     public int FunctionHandler(string input, ILambdaContext context)
@@ -217,4 +207,42 @@ Enviar el resultado a una cola de _Amazon SQS_.
     }
     ```
 
+2. Desde el _AWS Explorer_, cree una SQS.
 
+    ![Image](./img/sqs.png)
+
+3. Usando Nuget, agregue el paquete AWSSDK.SQS.
+
+4. Importe las dependencias de SQS y modifique el _handler_ para enviar el resultado a la cola. Note el uso de las variables de entorno SERVICE_URL y RESULT_QUEUE.
+
+    ``` C#
+    using Amazon.SQS;
+    using Amazon.SQS.Model;
+    ```
+
+    ``` C#
+    public async Task<int> FunctionHandler(string input, ILambdaContext context)
+    {
+        var result = CountWords(input);
+
+        var serviceUrl = Environment.GetEnvironmentVariable("SERVICE_URL");
+        var queueUrl = Environment.GetEnvironmentVariable("RESULT_QUEUE");
+
+        var sqsConfig = new AmazonSQSConfig() { ServiceURL = serviceUrl };
+        var sqsClient = new AmazonSQSClient(sqsConfig);
+
+        var message = result.ToString();
+        var request = new SendMessageRequest(queueUrl, message);
+        var sendMessageResponse = await sqsClient.SendMessageAsync(request);
+
+        return result;
+    }
+    ```
+
+5. Despliegue la lambda, teniendo en cuenta que debe agregar las variables de entorno con los datos de la SQS. Usar variables de entorno ayuda a desacoplar el ambiente de desarrollo del de producción. Además, facilita los cambios en el flujo de la aplicación.
+
+    ![Image](./img/deployenv.png)
+
+6. Pruebe la lambda y observe el estado de la cola en el _AWS Explorer_.
+
+    ![Image](./img/sqsmsg.png)
