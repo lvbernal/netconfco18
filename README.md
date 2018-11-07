@@ -263,4 +263,26 @@ En la primera parte del workshop aprenderá a crear y desplegar una función lam
 
 ## Reto
 
-Modifique la segunda función para que publique el número de palabras en un canal de Slack.
+Modifique la segunda función para que publique el número de palabras en un canal de Slack. Use la siguiente _Webhook URL_.
+
+```
+La URL estará disponible el día del evento
+```
+
+Este es un ejemplo del mensaje JSON que debe enviar al _Webhook_.
+
+``` json
+{
+    "text: "Hola desde C#",
+    "attachments": [
+        {
+            "title": "Autor",
+            "text": "Manuel Zapata"
+        },
+        {
+            "title": "Número de palabras",
+            "text": "5"
+        }
+    ]
+}
+```
