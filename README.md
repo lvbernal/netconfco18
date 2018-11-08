@@ -273,7 +273,7 @@ Este es un ejemplo del mensaje JSON que debe enviar al _Webhook_.
 
 ``` json
 {
-    "text: "Hola desde C#",
+    "text": "Hola desde C#",
     "attachments": [
         {
             "title": "Autor",
