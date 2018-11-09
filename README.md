@@ -286,3 +286,31 @@ Este es un ejemplo del mensaje JSON que debe enviar al _Webhook_.
     ]
 }
 ```
+
+## Bonus: API Gateway
+
+Desde la consola de AWS, busque el servicio _API Gateway_, que permitirá abstraer el conjunto de funciones, generar SDKs para clientes, administrar cargas de trabajo, etc.
+
+1. Cree un nuevo API.
+
+    ![Image](./img/api1.png)
+
+2. Explore el menú de acciones.
+
+    ![Image](./img/api2.png)
+
+3. Cree un nuevo recurso _/wordcount_ dentro del API.
+
+    ![Image](./img/api3.png)
+
+4. Cree un método POST asociado al recurso, que apunte a la primera función; obtenga el ARN desde la consola de AWS.
+
+    ![Image](./img/api4.png)
+
+5. Pruebe el API desde la consola de AWS.
+
+    ![Image](./img/api5.png)
+
+    ![Image](./img/api6.png)
+
+6. Despliegue el API y realice pruebas desde distintos clientes.
